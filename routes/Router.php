@@ -45,9 +45,8 @@ class Router
         if (isset($result['error'])) {
 
             return 'Error: ' . $result['error'];
-        } else {
-
-            return $result;
         }
+
+        return $result;
     }
 }

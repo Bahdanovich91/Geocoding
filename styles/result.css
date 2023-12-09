@@ -1,0 +1,18 @@
+.result-container {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin: 10px;
+}
+
+.result-text {
+    font-size: 18px;
+}
+
+.button-container {
+    padding: 5px;
+}
+
+.button-container a {
+    text-decoration: none;
+    color: #333;
+}
