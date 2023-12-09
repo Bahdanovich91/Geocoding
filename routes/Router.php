@@ -2,9 +2,9 @@
 
 class Router
 {
-    private $locationClient;
+    private LocationController $locationClient;
 
-    public function __construct(LocationClient $locationClient)
+    public function __construct(LocationController $locationClient)
     {
         $this->locationClient = $locationClient;
     }
@@ -15,10 +15,13 @@ class Router
         $requestData = $_GET['request_data'];
 
         if ($requestType === 'get_address') {
+
             return $this->getAddressByCoordinates($requestData['latitude'], $requestData['longitude']);
         } elseif ($requestType === 'get_coordinates') {
+
             return $this->getCoordinatesByAddress($requestData['address']);
         } else {
+
             return '404';
         }
     }

@@ -1,11 +1,12 @@
 <?php
-
-require_once 'app/LocationClient.php';
+require_once 'app/Controllers/LocationController.php';
+require_once 'app/Controllers/HttpClientController.php';
 require_once 'routes/Router.php';
 
 $apiUrl = 'https://us1.locationiq.com/v1/';
 $apiKey = 'pk.749763491c32c451d073d51e2afe6bd7';
-$locationClient = new LocationClient($apiUrl, $apiKey);
+$httpClient = new HttpClientController();
+$locationClient = new LocationController($apiUrl, $apiKey, $httpClient);
 $router = new Router($locationClient);
 
 $requestType = $_GET['request_type'];
@@ -22,5 +23,3 @@ if (isset($response['address']['city'])) {
     echo 'Address: ' . $response['address']['city'] . '<br>' . 'Country: ' . $response['address']['country'];
     echo '<br><button><a href="index.php">Back</a></button>';
 }
-
-return json_encode($response);

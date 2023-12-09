@@ -1,40 +1,29 @@
 <?php
 
-class LocationClient
+class LocationController
 {
-    private $apiUrl;
-    private $apiKey;
+    private string $apiUrl;
+    private string $apiKey;
+    private HttpClientController $httpClient;
 
-    public function __construct($apiUrl, $apiKey)
+    public function __construct($apiUrl, $apiKey, HttpClientController $httpClient)
     {
         $this->apiUrl = $apiUrl;
         $this->apiKey = $apiKey;
+        $this->httpClient = $httpClient;
     }
 
     public function getAddressByCoordinates($latitude, $longitude)
     {
         $url = $this->apiUrl . 'reverse.php?key=' . $this->apiKey . '&lat=' . $latitude . '&lon=' . $longitude . '&format=json';
 
-        return $this->makeRequest($url);
+        return $this->httpClient->makeRequest($url);
     }
 
     public function getCoordinatesByAddress($address)
     {
         $url = $this->apiUrl . 'search.php?key=' . $this->apiKey . '&q=' . urlencode($address) . '&format=json';
 
-        return $this->makeRequest($url);
-    }
-
-    private function makeRequest($url)
-    {
-        $curl = curl_init($url);
-
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        return json_decode($response, true);
+        return $this->httpClient->makeRequest($url);
     }
 }
