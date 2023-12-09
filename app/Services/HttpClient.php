@@ -1,8 +1,8 @@
 <?php
 
-class HttpClientController
+class HttpClient
 {
-    public function makeRequest(string $url)
+    public function makeRequest(string $url): array
     {
         $curl = curl_init($url);
 

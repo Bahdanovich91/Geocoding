@@ -1,12 +1,15 @@
 <?php
 require_once 'app/Controllers/LocationController.php';
-require_once 'app/Controllers/HttpClientController.php';
+require_once 'app/Services/HttpClient.php';
 require_once 'routes/Router.php';
 require_once 'result.php';
 
-$apiUrl = 'https://us1.locationiq.com/v1/';
-$apiKey = 'pk.749763491c32c451d073d51e2afe6bd7';
-$httpClient = new HttpClientController();
+$config = require_once 'env.php';
+
+$apiUrl = $config['API_URL'];
+$apiKey = $config['API_KEY'];
+
+$httpClient = new HttpClient();
 $locationClient = new LocationController($apiUrl, $apiKey, $httpClient);
 $router = new Router($locationClient);
 
