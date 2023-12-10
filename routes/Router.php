@@ -9,40 +9,47 @@ class Router
         $this->locationClient = $locationClient;
     }
 
-    public function handleRequest(): array|string
+    public function handleRequest(): array
     {
         $requestType = $_GET['request_type'];
         $requestData = $_GET['request_data'];
 
         if ($requestType === 'get_address') {
-            return $this->getAddressByCoordinates($requestData['latitude'], $requestData['longitude']);
+            $latitude = $requestData['latitude'];
+            $longitude = $requestData['longitude'];
+
+            if (!is_numeric($latitude) || !is_numeric($longitude)) {
+                return ['error' => 'Invalid coordinates. Latitude and longitude must be floats or integer.'];
+            }
+
+            return $this->getAddressByCoordinates($latitude, $longitude);
         }
 
         if ($requestType === 'get_coordinates') {
             return $this->getCoordinatesByAddress($requestData['address']);
         }
 
-        return '404';
+        return ['error' => '404'];
     }
 
-    private function getAddressByCoordinates(string $latitude, string $longitude): array|string
+    private function getAddressByCoordinates(float $latitude, float $longitude): array
     {
         $result = $this->locationClient->getAddressByCoordinates($latitude, $longitude);
 
         return $this->formatResponse($result);
     }
 
-    private function getCoordinatesByAddress($address): array|string
+    private function getCoordinatesByAddress($address): array
     {
         $result = $this->locationClient->getCoordinatesByAddress($address);
 
         return $this->formatResponse($result);
     }
 
-    private function formatResponse($result): array|string
+    private function formatResponse($result): array
     {
         if (isset($result['error'])) {
-            return 'Error: ' . $result['error'];
+            return ['error' => $result['error']];
         }
 
         return $result;

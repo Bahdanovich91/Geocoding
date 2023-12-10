@@ -13,15 +13,23 @@ $httpClient = new HttpClient();
 $locationClient = new LocationController($apiUrl, $apiKey, $httpClient);
 $router = new Router($locationClient);
 
-$requestType = $_GET['request_type'];
-$requestData = $_GET['request_data'];
+if (isset($_GET['request_type']) && isset($_GET['request_data'])) {
+    $requestType = $_GET['request_type'];
+    $requestData = $_GET['request_data'];
 
-$response = $router->handleRequest($requestType, $requestData);
+    $response = $router->handleRequest($requestType, $requestData);
 
-if (isset($response[0]['lat']) && isset($response[0]['lon'])) {
-    displayCoordinates($response[0]['lat'], $response[0]['lon']);
-}
+    if (is_array($response) && !empty($response)) {
+        if (isset($response[0]['lat']) && isset($response[0]['lon'])) {
+            displayCoordinates($response[0]['lat'], $response[0]['lon']);
+        }
 
-if (isset($response['address']['city'])) {
-    displayLocation($response['address']['city'], $response['address']['country'], $response['display_name']);
+        if (isset($response['display_name'])) {
+            displayLocation($response['display_name']);
+        }
+    }
+
+    if (!empty($response['error'])) {
+        displayError($response['error']);
+    }
 }

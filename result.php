@@ -18,12 +18,18 @@ function displayCoordinates(string $lat, string $lon): void
     echo '</div>';
 }
 
-function displayLocation(string $city, string $country, string $fullAddress): void
+function displayLocation(string $fullAddress): void
 {
     echo '<div class="result-container">';
-    echo '<p class="result-text">Location: ' . $city . '</p>';
-    echo '<p class="result-text">Country: ' . $country . '</p>';
     echo '<p class="result-text">Full Address: ' . $fullAddress . '</p>';
+    echo '<div class="button-container"><a href="index.php">Back</a></div>';
+    echo '</div>';
+}
+
+function displayError($error): void
+{
+    echo '<div class="result-container">';
+    echo '<p class="result-text">Error: ' . $error . '</p>';
     echo '<div class="button-container"><a href="index.php">Back</a></div>';
     echo '</div>';
 }
